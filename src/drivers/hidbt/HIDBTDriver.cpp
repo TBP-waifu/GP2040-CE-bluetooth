@@ -230,15 +230,16 @@ static HIDBTInput currentInput = {0};
 
 static uint8_t dpad_to_hat(uint8_t dpad) {
     // Convert D-pad bits to hat switch value (0-7, 8=neutral)
+    // Исправлено под маски GP2040: Up=0x01, Down=0x02, Left=0x04, Right=0x08
     switch (dpad & 0x0F) {
-        case 0x01: return 0;  // Up
-        case 0x03: return 1;  // Up-Right
-        case 0x02: return 2;  // Right
-        case 0x06: return 3;  // Down-Right
-        case 0x04: return 4;  // Down
-        case 0x0C: return 5;  // Down-Left
-        case 0x08: return 6;  // Left
-        case 0x09: return 7;  // Up-Left
+        case 0x01: return 0;  // Up (0x01)
+        case 0x09: return 1;  // Up-Right (0x01 | 0x08)
+        case 0x08: return 2;  // Right (0x08)
+        case 0x0A: return 3;  // Down-Right (0x02 | 0x08)
+        case 0x02: return 4;  // Down (0x02)
+        case 0x06: return 5;  // Down-Left (0x02 | 0x04)
+        case 0x04: return 6;  // Left (0x04)
+        case 0x05: return 7;  // Up-Left (0x01 | 0x04)
         default:   return 8;  // Neutral (no direction)
     }
 }
@@ -252,9 +253,9 @@ static void generate_report(void) {
     
     // Buttons (16 bits) - map GP2040 buttons to generic gamepad
     uint16_t buttons = 0;
-    if (currentInput.buttons & HIDBT_GAMEPAD_MASK_B1) buttons |= (1 << 0);   // A
+    if (currentInput.buttons & HIDBT_GAMEPAD_MASK_B1) buttons |= (1 << 2);   // A
     if (currentInput.buttons & HIDBT_GAMEPAD_MASK_B2) buttons |= (1 << 1);   // B
-    if (currentInput.buttons & HIDBT_GAMEPAD_MASK_B3) buttons |= (1 << 2);   // X
+    if (currentInput.buttons & HIDBT_GAMEPAD_MASK_B3) buttons |= (1 << 0);   // X
     if (currentInput.buttons & HIDBT_GAMEPAD_MASK_B4) buttons |= (1 << 3);   // Y
     if (currentInput.buttons & HIDBT_GAMEPAD_MASK_L1) buttons |= (1 << 4);   // LB
     if (currentInput.buttons & HIDBT_GAMEPAD_MASK_R1) buttons |= (1 << 5);   // RB
