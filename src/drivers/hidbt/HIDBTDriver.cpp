@@ -255,8 +255,8 @@ static void generate_report(void) {
     uint16_t buttons = 0;
     if (currentInput.buttons & HIDBT_GAMEPAD_MASK_B1) buttons |= (1 << 2);   // A
     if (currentInput.buttons & HIDBT_GAMEPAD_MASK_B2) buttons |= (1 << 1);   // B
-    if (currentInput.buttons & HIDBT_GAMEPAD_MASK_B3) buttons |= (1 << 0);   // X
-    if (currentInput.buttons & HIDBT_GAMEPAD_MASK_B4) buttons |= (1 << 3);   // Y
+    if (currentInput.buttons & HIDBT_GAMEPAD_MASK_B3) buttons |= (1 << 3);   // X
+    if (currentInput.buttons & HIDBT_GAMEPAD_MASK_B4) buttons |= (1 << 0);   // Y
     if (currentInput.buttons & HIDBT_GAMEPAD_MASK_L1) buttons |= (1 << 4);   // LB
     if (currentInput.buttons & HIDBT_GAMEPAD_MASK_R1) buttons |= (1 << 5);   // RB
     if (currentInput.buttons & HIDBT_GAMEPAD_MASK_L2) buttons |= (1 << 6);   // LT
